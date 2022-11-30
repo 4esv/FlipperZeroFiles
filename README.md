@@ -1,2 +1,2 @@
 # FlipperZero
-Collection of Flipper Zero Files of All Sorts
+My personal collection of flipper files
