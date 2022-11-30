@@ -1,0 +1,34 @@
+REM Author: 4esv
+REM Description: Obtains HostName, IPv4 Address, MAC Address and OS then outputs it
+REM Open powershell
+DELAY 1000
+GUI r
+DELAY 500
+STRING powershell
+DELAY 500
+ENTER
+DELAY 500
+GUI UP
+REM Obtain IPv4 Address and MAC Address
+DELAY 500
+STRING $IP = (ipconfig | findstr "IPv4").Trim()
+DELAY 300
+ENTER
+DELAY 500
+STRING $MAC = (ipconfig /all | findstr /R "..-..-..-..-..-.." | findstr "Physical").Trim()
+DELAY 300
+ENTER
+REM Get user info
+DELAY 500
+STRING $USRINFO = Get-CimInstance Win32_OperatingSystem | Select-Object  Caption, CSName, SerialNumber | FL
+DELAY 300
+ENTER
+REM Clear screen then display info
+DELAY 500
+STRING clear
+DELAY 350
+ENTER
+DELAY 500
+STRING echo `n $USRINFO $IP $MAC `n `n
+DELAY 300
+ENTER
