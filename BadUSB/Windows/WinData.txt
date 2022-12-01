@@ -1,34 +1,45 @@
-REM Author: 4esv
-REM Description: Obtains HostName, IPv4 Address, MAC Address and OS then outputs it
-REM Open powershell
-DELAY 1000
+REM      Author : 4esv
+REM Description : Obtains Hosname, OS, Serial #, IPv4 and MAC Addresses then outputs them to console
+REM      System : Windows based Win7 or Newer
+DELAY 500
+REM -Open Powershell
 GUI r
 DELAY 500
 STRING powershell
-DELAY 500
+DELAY 250
 ENTER
 DELAY 500
 GUI UP
-REM Obtain IPv4 Address and MAC Address
-DELAY 500
+DELAY 250
+REM -Obtain HostName and OS
+STRING $HNAME = (Get-CimInstance Win32_OperatingSystem | Select-Object CSName | FL | Out-String).Trim()
+DELAY 250
+ENTER
+DELAY 250
+STRING $OS = (Get-CimInstance Win32_OperatingSystem | Select-Object  Caption | FL | Out-String).Trim()
+DELAY 250
+ENTER
+DELAY 250
+REM -Obtain Model
+STRING $MODEL = (Get-CimInstance -ClassName Win32_ComputerSystem | Select Model | FL | Out-String).Trim()
+DELAY 250
+ENTER
+DELAY 250
+REM -Obtain Serial Number
+STRING $SERIAL = (Get-WmiObject win32_bios | select SerialNumber | FL | Out-String).Trim()
+DELAY 250
+ENTER
+DELAY 250
+REM -Obtain Network Info
 STRING $IP = (ipconfig | findstr "IPv4").Trim()
-DELAY 300
+DELAY 250
 ENTER
-DELAY 500
+DELAY 250
 STRING $MAC = (ipconfig /all | findstr /R "..-..-..-..-..-.." | findstr "Physical").Trim()
-DELAY 300
+DELAY 250
 ENTER
-REM Get user info
-DELAY 500
-STRING $USRINFO = Get-CimInstance Win32_OperatingSystem | Select-Object  Caption, CSName, SerialNumber | FL
-DELAY 300
-ENTER
-REM Clear screen then display info
-DELAY 500
-STRING clear
-DELAY 350
-ENTER
-DELAY 500
-STRING echo `n $USRINFO $IP $MAC `n `n
-DELAY 300
+DELAY 250
+REM -Output all Info
+STRING echo `n `n $HNAME `n $OS `n $MODEL `n $SERIAL `n $IP `n $MAC `n `n
+DELAY 250
 ENTER
