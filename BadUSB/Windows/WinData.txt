@@ -11,35 +11,7 @@ ENTER
 DELAY 500
 GUI UP
 DELAY 250
-REM -Obtain HostName and OS
-STRING $HNAME = (Get-CimInstance Win32_OperatingSystem | Select-Object CSName | FL | Out-String).Trim()
-DELAY 250
-ENTER
-DELAY 250
-STRING $OS = (Get-CimInstance Win32_OperatingSystem | Select-Object  Caption | FL | Out-String).Trim()
-DELAY 250
-ENTER
-DELAY 250
-REM -Obtain Model
-STRING $MODEL = (Get-CimInstance -ClassName Win32_ComputerSystem | Select Model | FL | Out-String).Trim()
-DELAY 250
-ENTER
-DELAY 250
-REM -Obtain Serial Number
-STRING $SERIAL = (Get-WmiObject win32_bios | select SerialNumber | FL | Out-String).Trim()
-DELAY 250
-ENTER
-DELAY 250
-REM -Obtain Network Info
-STRING $IP = (ipconfig | findstr "IPv4").Trim()
-DELAY 250
-ENTER
-DELAY 250
-STRING $MAC = (ipconfig /all | findstr /R "..-..-..-..-..-.." | findstr "Physical").Trim()
-DELAY 250
-ENTER
-DELAY 250
-REM -Output all Info
-STRING echo `n `n $HNAME `n $OS `n $MODEL `n $SERIAL `n $IP `n $MAC `n `n
+REM -Obtain HostName, Model, Serial Number, IP, MAC and OS, then, display it.
+STRING $HNAME = (Get-CimInstance Win32_OperatingSystem | Select-Object CSName | FL | Out-String).Trim();$OS = (Get-CimInstance Win32_OperatingSystem | Select-Object  Caption | FL | Out-String).Trim();$MODEL = (Get-CimInstance -ClassName Win32_ComputerSystem | Select Model | FL | Out-String).Trim();$SERIAL = (Get-WmiObject win32_bios | select SerialNumber | FL | Out-String).Trim();$IP = (ipconfig | findstr "IPv4").Trim();$MAC = (ipconfig /all | findstr /R "..-..-..-..-..-.." | findstr "Physical").Trim();clear;;echo `n `n $HNAME `n $OS `n $MODEL `n $SERIAL `n $IP `n $MAC `n `n
 DELAY 250
 ENTER
